@@ -48,6 +48,7 @@ const TextInputPasswordCardLogin = styled.TextInput`
     font-weight: bold;
     font-style: italic;
     padding: 20px;
+    width: 80%;
 `;
 const ViewBoxLogIn = styled.View`
   padding: 20px;

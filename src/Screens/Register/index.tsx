@@ -1,5 +1,5 @@
-import React from "react";
-import { TouchableOpacity, KeyboardAvoidingView, Platform, ScrollView } from "react-native";
+import React, { useState } from "react";
+import { TouchableOpacity, KeyboardAvoidingView, Platform, ScrollView, View } from "react-native";
 import { FontAwesome5 } from "@expo/vector-icons/";
 import {
     Wrapper,
@@ -31,6 +31,17 @@ type NavigationType = {
 };
 
 function Register({ navigation }: NavigationType) {
+    const [showHideLogin, setShowHideLogin] = useState({
+        icon: 'eye-slash',
+        password: true,
+    });
+
+    function showHideInputLogin() {
+        setShowHideLogin({
+            icon: showHideLogin.icon === 'eye' ? 'eye-slash' : 'eye',
+            password: showHideLogin.password === false ? true : false,
+        });
+    }
 
     return (
         <KeyboardAvoidingView
@@ -57,7 +68,17 @@ function Register({ navigation }: NavigationType) {
                             height: 2,
                             backgroundColor: "#EBEBEB"
                         }} />
-                        <TextInputPasswordCardLogin placeholder="Password" secureTextEntry />
+                        <View>
+                            <FontAwesome5
+                                name={showHideLogin.icon}
+                                onPress={showHideInputLogin}
+                                size={20}
+                                style={{ position: "absolute", marginTop: 25, right: 20 }}
+                            />
+                            <TextInputPasswordCardLogin placeholder="Password"
+                                secureTextEntry={showHideLogin.password}
+                            />
+                        </View>
                         <ViewLineLogo style={{
                             width: "100%",
                             height: 2,
