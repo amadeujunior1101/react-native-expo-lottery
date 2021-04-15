@@ -27,10 +27,13 @@ interface ItemsValidate {
 }
 
 type NavigationType = {
-    navigation: { navigate: Function }
+    navigation: {
+        navigate: Function,
+        goBack: Function
+    };
 };
 
-function Login({ navigation }: NavigationType) {
+function ResetPassword({ navigation }: NavigationType) {
 
     return (
         <KeyboardAvoidingView
@@ -41,7 +44,7 @@ function Login({ navigation }: NavigationType) {
                 <BoxLogo>
                     <TextLogoTitle>TGL</TextLogoTitle>
                     <ViewLineLogo />
-                    <TextAuthenticationTitle>Authentication</TextAuthenticationTitle>
+                    <TextAuthenticationTitle>Reset Password</TextAuthenticationTitle>
                 </BoxLogo>
                 <ScrollView>
                     <ViewCardLogin>
@@ -51,20 +54,11 @@ function Login({ navigation }: NavigationType) {
                             height: 2,
                             backgroundColor: "#EBEBEB"
                         }} />
-                        <TextInputPasswordCardLogin placeholder="Password" />
-                        <ViewLineLogo style={{
-                            width: "100%",
-                            height: 2,
-                            backgroundColor: "#EBEBEB"
-                        }} />
+
                         <ViewBoxLogIn>
-                            <ViewBoxForgot>
-                                <TouchableOpacity onPress={() => navigation.navigate('ResetPassword')}>
-                                    <TextTitleButtonLogInForgot>I forget my password</TextTitleButtonLogInForgot>
-                                </TouchableOpacity>
-                            </ViewBoxForgot>
+
                             <TouchableOpacity style={{ flexDirection: "row", alignItems: "center", }}>
-                                <TextTitleButtonLogIn>Log In</TextTitleButtonLogIn>
+                                <TextTitleButtonLogIn>Send Link</TextTitleButtonLogIn>
                                 <FontAwesome5
                                     name="arrow-right"
                                     size={24}
@@ -74,13 +68,13 @@ function Login({ navigation }: NavigationType) {
                         </ViewBoxLogIn>
                     </ViewCardLogin>
 
-                    <ButtonSignUp onPress={() => navigation.navigate('Register')}>
-                        <TextTitleButtonSignUp>Sign Up</TextTitleButtonSignUp>
+                    <ButtonSignUp onPress={() => navigation.goBack()}>
                         <FontAwesome5
-                            name="arrow-right"
+                            name="arrow-left"
                             size={24}
                             color="#707070"
                         />
+                        <TextTitleButtonSignUp>Back</TextTitleButtonSignUp>
                     </ButtonSignUp>
                 </ScrollView>
 
@@ -92,4 +86,4 @@ function Login({ navigation }: NavigationType) {
     )
 }
 
-export default Login;
+export default ResetPassword;

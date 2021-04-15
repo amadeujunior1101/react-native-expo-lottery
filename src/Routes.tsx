@@ -3,6 +3,8 @@ import React, { ReactNode } from "react";
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import Login from "./Screens/Login";
+import Register from "./Screens/Register";
+import ResetPassword from "./Screens/ResetPassword";
 
 type RootStackParamList = {
     Home: undefined;
@@ -21,6 +23,8 @@ const Routes = () => {
                 initialRouteName="Login"
                 screenOptions={{}}>
                 <StackNavigation.Screen name="Login" component={Login} options={{ headerShown: false }} />
+                <StackNavigation.Screen name="Register" component={Register} options={{ headerShown: false }} />
+                <StackNavigation.Screen name="ResetPassword" component={ResetPassword} options={{ headerShown: false }} />
             </StackNavigation.Navigator>
         </NavigationContainer>
     );

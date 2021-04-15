@@ -6,8 +6,6 @@ const Wrapper = styled.View`
   /* background-color: #808080; */
   padding-left: 15px;
   padding-right: 15px;
-  /* align-items: center;
-  justify-content: center; */
 `;
 const TextLogoTitle = styled.Text`
   font-size: 40px;
@@ -28,15 +26,10 @@ const ViewCardLogin = styled.View`
   margin-top: 20px;
   background-color: #FFF;
   border-radius: 10px;
-  /* margin-left: 20px;
-  margin-right: 20px; */
   border-width: 2px;
   border-color: #EBEBEB;
-  /* padding: 10px; */
 `;
 const TextInputEmailCardLogin = styled.TextInput`
-    /* padding-top: 10px; */
-    /* padding-bottom: 10px; */
     margin-left: 10px;
     margin-right: 10px;
     font-size: 20px;
@@ -47,8 +40,6 @@ const TextInputEmailCardLogin = styled.TextInput`
     padding: 20px;
 `;
 const TextInputPasswordCardLogin = styled.TextInput`
-    /* padding-top: 0px; */
-    /* padding-bottom: 10px; */
     margin-left: 10px;
     margin-right: 10px;
     font-size: 20px;
@@ -59,7 +50,6 @@ const TextInputPasswordCardLogin = styled.TextInput`
     padding: 20px;
 `;
 const ViewBoxLogIn = styled.View`
-  /* background-color: #808080; */
   padding: 20px;
   justify-content: center;
   align-items: center;
@@ -99,7 +89,7 @@ const TextTitleButtonSignUp = styled.Text`
     font-weight: bold;
     font-style: italic;
     text-align: center;
-    margin-right: 15px;
+    margin-left: 15px;
 `;
 const BoxLogo = styled.View`
 justify-content: center;
@@ -113,18 +103,13 @@ const ViewLineLogo = styled.View`
   margin-top: -5px;
   border-radius: 20px;
 `;
-// const ViewFooter = styled.View`
-//   /* width: 90px; */
-//   border-width: 2px;
-//   border-color: #EBEBEB;
-// `;
+
 const TextTitleFooter = styled.Text`
   font-size: 15px;
   padding: 10px;
   color: #707070;
   text-align: center;
   background-color: #F7F7F7;
-  /* position: relative; */
 `;
 
 

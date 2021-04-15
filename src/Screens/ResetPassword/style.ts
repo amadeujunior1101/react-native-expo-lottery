@@ -99,7 +99,7 @@ const TextTitleButtonSignUp = styled.Text`
     font-weight: bold;
     font-style: italic;
     text-align: center;
-    margin-right: 15px;
+    margin-left: 15px;
 `;
 const BoxLogo = styled.View`
 justify-content: center;
