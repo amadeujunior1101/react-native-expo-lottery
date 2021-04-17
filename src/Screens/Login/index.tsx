@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { TouchableOpacity, KeyboardAvoidingView, Platform, ScrollView, View } from "react-native";
 import { FontAwesome5 } from "@expo/vector-icons/";
 import validateUser from "./validate";
-import { UserLogin, ItemsValidate, NavigationType } from "./types"
+import { UserLogin, User, NavigationType } from "./types"
 import {
     Wrapper,
     TextLogoTitle,
@@ -39,7 +39,7 @@ function Login({ navigation }: NavigationType) {
 
     const handleLogin = () => {
 
-        let item: ItemsValidate = {
+        let item: User = {
             email: email,
             password: password,
             changeError: changeError,
@@ -148,7 +148,7 @@ function Login({ navigation }: NavigationType) {
 
             </Wrapper>
             <>
-                <TextTitleFooter>Copyright 2020 Luby Software</TextTitleFooter>
+                <TextTitleFooter>Copyright 2021 Luby Software</TextTitleFooter>
             </>
         </KeyboardAvoidingView>
     )

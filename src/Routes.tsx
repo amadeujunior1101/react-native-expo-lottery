@@ -1,10 +1,12 @@
-
-import React, { ReactNode } from "react";
+import React, { } from "react";
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import Game from "./Screens/Game";
 import Login from "./Screens/Login";
 import Register from "./Screens/Register";
 import ResetPassword from "./Screens/ResetPassword";
+
+import Header from "./Components/Header"
 
 type RootStackParamList = {
     Home: undefined;
@@ -20,8 +22,9 @@ const Routes = () => {
     return (
         <NavigationContainer>
             <StackNavigation.Navigator
-                initialRouteName="Login"
+                initialRouteName="Game"
                 screenOptions={{}}>
+                <StackNavigation.Screen name="Game" component={Game} options={{ headerTitle: () => <Header />, headerStyle: { height: 70 } }} />
                 <StackNavigation.Screen name="Login" component={Login} options={{ headerShown: false }} />
                 <StackNavigation.Screen name="Register" component={Register} options={{ headerShown: false }} />
                 <StackNavigation.Screen name="ResetPassword" component={ResetPassword} options={{ headerShown: false }} />

@@ -1,15 +1,16 @@
-export interface UserLogin {
+export interface UserPassword {
     email: string;
-    password: string;
 }
 
 export interface User {
     email: string;
-    password: string;
     changeError: Function;
     check_email: Function;
 }
 
 export type NavigationType = {
-    navigation: { navigate: Function }
+    navigation: {
+        navigate: Function,
+        goBack: Function
+    };
 };

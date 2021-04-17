@@ -3,7 +3,6 @@ import styled from 'styled-components/native';
 const Wrapper = styled.View`
   flex: 1;
   background-color: #F7F7F7;
-  /* background-color: #808080; */
   padding-left: 15px;
   padding-right: 15px;
 `;
@@ -57,20 +56,6 @@ const ViewBoxLogIn = styled.View`
 
 `;
 
-const ViewBoxForgot = styled.View`
-  width: 100%;
-  margin-bottom: 20px;
-  text-align: right;
-`;
-
-const TextTitleButtonLogInForgot = styled.Text`
-   font-size: 15px;
-    color: #707070;
-    font-family: "Helvetica";
-    font-style: italic;
-    text-align: right;
-`;
-
 const TextTitleButtonLogIn = styled.Text`
    font-size: 30px;
     color: #B5C401;
@@ -113,8 +98,6 @@ const TextTitleFooter = styled.Text`
   background-color: #F7F7F7;
 `;
 
-
-
 export {
   Wrapper,
   TextLogoTitle,
@@ -128,8 +111,5 @@ export {
   TextTitleButtonSignUp,
   BoxLogo,
   ViewLineLogo,
-  TextTitleButtonLogInForgot,
-  ViewBoxForgot,
-  // ViewFooter,
   TextTitleFooter,
 }

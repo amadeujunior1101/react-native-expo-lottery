@@ -14,33 +14,72 @@ import {
     TextTitleButtonSignUp,
     BoxLogo,
     ViewLineLogo,
-    TextTitleButtonLogInForgot,
-    ViewBoxForgot,
     TextTitleFooter,
-} from "./style"
-
-interface ItemsValidate {
-    email: string;
-    password: string;
-    changeError: Function;
-    check_email: Function;
-}
-
-type NavigationType = {
-    navigation: { goBack: Function }
-};
+} from "./style";
+import { NavigationType, User, UserRegister } from "./types";
+import validateUser from "./validate";
 
 function Register({ navigation }: NavigationType) {
-    const [showHideLogin, setShowHideLogin] = useState({
+    const [fullName, setFullName] = useState<string>("")
+    const [email, setEmail] = useState<string>("")
+    const [password, setPassword] = useState<string>("")
+    const [showHideRegister, setShowHideRegister] = useState({
         icon: 'eye-slash',
         password: true,
     });
 
-    function showHideInputLogin() {
-        setShowHideLogin({
-            icon: showHideLogin.icon === 'eye' ? 'eye-slash' : 'eye',
-            password: showHideLogin.password === false ? true : false,
+    function showHideInputRegister() {
+        setShowHideRegister({
+            icon: showHideRegister.icon === 'eye' ? 'eye-slash' : 'eye',
+            password: showHideRegister.password === false ? true : false,
         });
+    }
+
+    const handleRegister = () => {
+
+        let item: User = {
+            fullName: fullName,
+            email: email,
+            password: password,
+            changeError: changeError,
+            check_email: check_email,
+        }
+        return validateUser(item)
+    }
+
+    function changeError(error: UserRegister) {
+        if (error.fullName.length > 0 && error.email.length > 0 && error.password.length > 0) {
+            addNewRegister()
+
+        } else {
+            error?.fullName !== "" && alert(error?.fullName)
+            error?.email !== "" && alert(error?.email)
+            error?.password !== "" && alert(error?.password)
+        }
+    }
+
+    function check_email(val: string) {
+        if (!val.match(/\S+@\S+\.\S+/)) {
+            return false;
+        }
+        if (val.indexOf(' ') != -1 || val.indexOf('..') != -1) {
+            return false;
+        }
+        return true;
+    }
+
+    function addNewRegister() {
+        console.log("Validate...")
+    }
+
+    const handleChangeFullName = (e: string) => {
+        setFullName(e)
+    }
+    const handleChangeEmail = (e: string) => {
+        setEmail(e)
+    }
+    const handleChangePassword = (e: string) => {
+        setPassword(e)
     }
 
     return (
@@ -56,13 +95,19 @@ function Register({ navigation }: NavigationType) {
                 </BoxLogo>
                 <ScrollView>
                     <ViewCardLogin>
-                        <TextInputEmailCardLogin placeholder="Name" />
+                        <TextInputEmailCardLogin placeholder="Name"
+                            value={fullName}
+                            onChangeText={(e) => handleChangeFullName(e)}
+                        />
                         <ViewLineLogo style={{
                             width: "100%",
                             height: 2,
                             backgroundColor: "#EBEBEB"
                         }} />
-                        <TextInputEmailCardLogin placeholder="Email" />
+                        <TextInputEmailCardLogin placeholder="Email"
+                            value={email}
+                            onChangeText={(e) => handleChangeEmail(e)}
+                        />
                         <ViewLineLogo style={{
                             width: "100%",
                             height: 2,
@@ -70,13 +115,15 @@ function Register({ navigation }: NavigationType) {
                         }} />
                         <View>
                             <FontAwesome5
-                                name={showHideLogin.icon}
-                                onPress={showHideInputLogin}
+                                name={showHideRegister.icon}
+                                onPress={showHideInputRegister}
                                 size={20}
                                 style={{ position: "absolute", marginTop: 25, right: 20 }}
                             />
                             <TextInputPasswordCardLogin placeholder="Password"
-                                secureTextEntry={showHideLogin.password}
+                                secureTextEntry={showHideRegister.password}
+                                value={password}
+                                onChangeText={(e) => handleChangePassword(e)}
                             />
                         </View>
                         <ViewLineLogo style={{
@@ -85,12 +132,8 @@ function Register({ navigation }: NavigationType) {
                             backgroundColor: "#EBEBEB"
                         }} />
                         <ViewBoxLogIn>
-                            {/* <ViewBoxForgot>
-                            <TouchableOpacity>
-                                <TextTitleButtonLogInForgot>I forget my password</TextTitleButtonLogInForgot>
-                            </TouchableOpacity>
-                        </ViewBoxForgot> */}
-                            <TouchableOpacity style={{ flexDirection: "row", alignItems: "center", }}>
+
+                            <TouchableOpacity style={{ flexDirection: "row", alignItems: "center", }} onPress={() => handleRegister()} >
                                 <TextTitleButtonLogIn>Register</TextTitleButtonLogIn>
                                 <FontAwesome5
                                     name="arrow-right"
@@ -113,7 +156,7 @@ function Register({ navigation }: NavigationType) {
 
             </Wrapper>
             <>
-                <TextTitleFooter>Copyright 2020 Luby Software</TextTitleFooter>
+                <TextTitleFooter>Copyright 2021 Luby Software</TextTitleFooter>
             </>
         </KeyboardAvoidingView>
     )

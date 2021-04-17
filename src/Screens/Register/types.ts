@@ -1,9 +1,11 @@
-export interface UserLogin {
+export interface UserRegister {
+    fullName: string;
     email: string;
     password: string;
 }
 
 export interface User {
+    fullName: string;
     email: string;
     password: string;
     changeError: Function;
@@ -11,5 +13,5 @@ export interface User {
 }
 
 export type NavigationType = {
-    navigation: { navigate: Function }
+    navigation: { goBack: Function }
 };
