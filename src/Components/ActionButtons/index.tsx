@@ -9,7 +9,7 @@ import {
 interface FunctionButtons {
     completeGame: Function;
     clearGame: Function;
-    // addCart: Function;
+    addCart: Function;
 }
 
 function ActionButtons(props: FunctionButtons) {
@@ -21,7 +21,7 @@ function ActionButtons(props: FunctionButtons) {
             <ButtonActionGame onPress={() => props.clearGame()}>
                 <TextActionGame>Clear game</TextActionGame>
             </ButtonActionGame>
-            <ButtonActionGame style={{ flexDirection: "row", backgroundColor: "#B5C401", alignItems: "center" }} onPress={() => alert()}>
+            <ButtonActionGame style={{ flexDirection: "row", backgroundColor: "#B5C401", alignItems: "center" }} onPress={() => props.addCart()}>
                 <MaterialCommunityIcons
                     name={"cart-minus"}
                     onPress={() => alert("Cart")}

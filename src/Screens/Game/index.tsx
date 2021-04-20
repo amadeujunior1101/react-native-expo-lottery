@@ -3,7 +3,7 @@ import { Text, View, ScrollView } from "react-native";
 import ButtonChooseBet from "../../Components/ButtonChooseBet";
 import BallBet from "../../Components/Ball"
 import api from "../../Services/api";
-import { GameType, Item } from "./types";
+import { GameType, Item, Cart } from "./types";
 import ActionButtons from "../../Components/ActionButtons";
 
 import {
@@ -25,11 +25,14 @@ interface FunctionButtons {
 
 function Game() {
     const [games, setGames] = useState<GameType[]>([]);
-    const [selectedGame, setSelectedGame] = useState<Item>()
-    const [selectedBalls, setSelectedBalls] = useState<Array<number>>([])
-    const [loadGames, setLoadGames] = useState(true)
+    const [selectedGame, setSelectedGame] = useState<Item>();
+    const [selectedBalls, setSelectedBalls] = useState<Array<number>>([]);
+    const [loadGames, setLoadGames] = useState(true);
+    const [visibleInfoValueQuantityBalls, SetVisibleInfoValueQuantityBalls] = useState(false);
+    const [cart, setCart] = useState<Cart[]>([]);
+    const [cartTemporary, setCartTemporary] = useState<Array<string>>([]);
 
-    const [activeId, setActiveId] = useState(1)
+    const [activeId, setActiveId] = useState(1);
 
     useEffect(() => {
         listGames()
@@ -114,6 +117,60 @@ function Game() {
         setSelectedBalls([])
     }
 
+    function addToCart() {
+        if (selectedBalls.length < Number(selectedGame?.max_number)) {
+            SetVisibleInfoValueQuantityBalls(true);
+            setTimeout(() => {
+                SetVisibleInfoValueQuantityBalls(false);
+            }, 4000);
+            return
+        }
+
+        let sortSelectedBalls = selectedBalls.sort(function (a, b) {
+            return a - b;
+        })
+        sortSelectedBalls.map(item => {
+            let newNumber: string = "";
+            item < 10
+                ? (newNumber = `${"0" + String(item)}`)
+                : (newNumber = String(item));
+            cartTemporary.push(newNumber)
+        })
+
+        cart?.push({
+            type: String(selectedGame?.type),
+            price: Number(selectedGame?.price),
+            game_id: selectedGame?.id,
+            date: getDate(),
+            numbers: cartTemporary,
+            color: String(selectedGame?.color),
+        });
+        console.log("Itens no carinho:", cart);
+
+        setCartTemporary([])
+        setSelectedBalls([])
+    }
+
+    function getDate() {
+        const date = new Date();
+
+        const day = date.getDate();
+        const month = date.getMonth() + 1;
+        const year = date.getFullYear();
+
+        let modifiedDay: string = "";
+        day < 10
+            ? (modifiedDay = `${"0" + String(day)}`)
+            : (modifiedDay = String(day));
+
+        let modifiedMonth: string = "";
+        month < 10
+            ? (modifiedMonth = `${"0" + String(month)}`)
+            : (modifiedMonth = String(month));
+
+        return String(`${modifiedDay}/${modifiedMonth}/${year}`)
+    }
+
     function loadBalls() {
         return Array.apply(0, Array(selectedGame?.range)).map(function (x, i) {
             return (
@@ -180,6 +237,7 @@ function Game() {
                                 <ActionButtons
                                     completeGame={completeGame}
                                     clearGame={cleanGame}
+                                    addCart={addToCart}
                                 />
                             </ScrollView>
                         </View>

@@ -1,5 +1,6 @@
 import React from "react";
 import { TouchableOpacity, View } from "react-native";
+import { useNavigation, CommonActions } from '@react-navigation/native';
 import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
 import {
     TextLogoTitle,
@@ -8,7 +9,10 @@ import {
     ViewBoxIcons,
 } from "./style";
 
+// import { NavigationType } from "./types"
+
 function Header() {
+    const navigation = useNavigation();
     return (
         <BoxLogo>
             <TouchableOpacity onPress={() => alert("Home")}>
@@ -26,9 +30,22 @@ function Header() {
                 />
                 <MaterialIcons
                     name={"logout"}
-                    onPress={() => alert("Log Out")}
                     size={35}
                     color={"#C1C1C1"}
+                    // onPress={() => navigation.navigate("Login")}
+                    onPress={() => navigation.dispatch(
+                        CommonActions.reset({
+                            index: 1,
+                            routes: [
+                                { name: 'Login' },
+                                // {
+                                //     name: 'Profile',
+                                //     params: { user: 'jane' },
+                                // },
+                            ],
+                        })
+                    )}
+
                 // style={{ position: "absolute", marginTop: 25, right: 20 }}
                 />
             </ViewBoxIcons>

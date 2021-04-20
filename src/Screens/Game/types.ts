@@ -11,6 +11,14 @@ export interface GameType {
     active: number;
 }
 
+export interface Cart {
+    type: string;
+    price: number;
+    game_id?: number;
+    date: string;
+    numbers: Array<String>;
+    color: string;
+}
 export interface Item {
     id: number;
     type: string;

@@ -93,7 +93,11 @@ function Login({ navigation }: NavigationType) {
             <Wrapper>
                 <BoxLogo>
                     <TextLogoTitle>TGL</TextLogoTitle>
-                    <ViewLineLogo />
+                    <ViewLineLogo style={{
+                        width: "30%",
+                        height: 5,
+                        backgroundColor: "#B5C401"
+                    }} />
                     <TextAuthenticationTitle>Authentication</TextAuthenticationTitle>
                 </BoxLogo>
                 <ScrollView>
