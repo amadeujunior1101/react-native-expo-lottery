@@ -56,17 +56,11 @@ const ViewBottomBar = styled.View`
   `;
 
 const ViewContainerBalls = styled.View`
-/* display: grid; */
-/* grid-template-columns: repeat(10, 1fr); */
-/* grid-auto-rows: 75px;
-grid-gap: 5px 8px; */
 justify-content: space-between;
 flex-direction: row;
 flex-wrap: wrap;
-/* padding: 0 10px 10px 0; */
 margin-top: 20px; 
 margin-bottom: 30px;
-
 `;
 
 export {

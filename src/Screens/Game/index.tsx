@@ -4,6 +4,7 @@ import ButtonChooseBet from "../../Components/ButtonChooseBet";
 import BallBet from "../../Components/Ball"
 import api from "../../Services/api";
 import { GameType, Item } from "./types";
+import ActionButtons from "../../Components/ActionButtons";
 
 import {
     Wrapper,
@@ -15,6 +16,12 @@ import {
     ViewBottomBar,
     ViewContainerBalls,
 } from "./style";
+
+interface FunctionButtons {
+    // completeGame: Function;
+    clearGame: Function;
+    // addCart: Function;
+}
 
 function Game() {
     const [games, setGames] = useState<GameType[]>([]);
@@ -92,10 +99,22 @@ function Game() {
         })
     }
 
+    function completeGame() {
+        while (selectedBalls.length < Number(selectedGame?.max_number)) {
+            let number = Math.floor(Math.random() * Number(selectedGame?.range) + 1);
+            const found = selectedBalls.some((element) => element === Number(number));
+            if (!found) {
+                selectedNumber(number);
+                selectedBalls.push(number);
+            }
+        }
+    }
+
+    function cleanGame() {
+        setSelectedBalls([])
+    }
 
     function loadBalls() {
-        // <SafeAreaView></SafeAreaView>
-
         return Array.apply(0, Array(selectedGame?.range)).map(function (x, i) {
             return (
                 <BallBet
@@ -136,31 +155,42 @@ function Game() {
 
             {
                 selectedBalls.length > 0 ?
-                    <ViewContainerBalls style={{ flexWrap: "wrap", flexDirection: "row", alignItems: "center", marginTop: 0, marginBottom: 0, }}>
-                        <ScrollView horizontal>
-                            {selectedBalls.map(item => {
-                                return (
-                                    <View style={{ marginRight: 10, }} key={item}>
-                                        <Text style={{ position: "absolute", marginTop: 3, right: 15, zIndex: 2, color: "#FFF", fontWeight: "bold", }}>x</Text>
-                                        <BallBet
-                                            key={item}
-                                            numberBall={item - 1}
-                                            color={String(selectedGame?.color)}
-                                            selectedNumber={(e: number) => { selectedNumber(e) }}
-                                            arrBalls={selectedBalls}
-                                        />
-                                    </View>
-                                )
-                            })
-                            }
-                        </ScrollView>
-                    </ViewContainerBalls>
+                    <>
+                        <ViewContainerBalls style={{ flexWrap: "wrap", flexDirection: "row", alignItems: "center", marginTop: 0, marginBottom: 0, }}>
+                            <ScrollView horizontal>
+                                {selectedBalls.map(item => {
+                                    return (
+                                        <View style={{ marginRight: 10, }} key={item}>
+                                            <Text style={{ position: "absolute", marginTop: 3, right: 15, zIndex: 2, color: "#FFF", fontWeight: "bold", }}>x</Text>
+                                            <BallBet
+                                                key={item}
+                                                numberBall={item - 1}
+                                                color={String(selectedGame?.color)}
+                                                selectedNumber={(e: number) => { selectedNumber(e) }}
+                                                arrBalls={selectedBalls}
+                                            />
+                                        </View>
+                                    )
+                                })
+                                }
+                            </ScrollView>
+                        </ViewContainerBalls>
+                        <View style={{ marginTop: 10 }}>
+                            <ScrollView horizontal>
+                                <ActionButtons
+                                    completeGame={completeGame}
+                                    clearGame={cleanGame}
+                                />
+                            </ScrollView>
+                        </View>
+                    </>
                     :
                     <>
                         <Text>Fill your bet</Text>
                         <TextDescriptionGame>{selectedGame?.description}</TextDescriptionGame>
                     </>
             }
+
             <ViewBoxBottomBar>
                 <ViewBottomBar />
             </ViewBoxBottomBar>
