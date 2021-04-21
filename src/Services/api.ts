@@ -12,7 +12,7 @@ const api = axios.create({
 api.interceptors.request.use(async (config) => {
 
     const userToken = await AsyncStorage.getItem('auth:token');
-    config.headers.Authorization = `Bearer ${`eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjM5LCJpYXQiOjE2MTg4ODAxNjUsImV4cCI6MTYxODk2NjU2NX0.ThSC-dS5AKc_Bt8MRaelvff2_ePKXFmNJxQ2VKscaZ0`}`;
+    config.headers.Authorization = `Bearer ${`eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjM5LCJpYXQiOjE2MTg5NzE5NzUsImV4cCI6MTYxOTA1ODM3NX0.PunLLapq3qpFciEv8nEUF1ud8WIm20e4m78paNl6PFc`}`;
 
     return config;
 }, (error) => {
