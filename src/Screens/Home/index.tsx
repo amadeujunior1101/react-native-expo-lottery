@@ -6,7 +6,8 @@ import { useNavigation, CommonActions } from '@react-navigation/native';
 import dayjs from 'dayjs';
 import api from "../../Services/api";
 
-import ButtonChooseBet from "../../Components/ButtonChooseBet"
+import ButtonChooseBet from "../../Components/ButtonChooseBet";
+import Header from "../../Components/Header";
 
 import {
     Wrapper,
@@ -98,61 +99,64 @@ function Home() {
     }
 
     return (
-        <Wrapper>
-            <TextTitle>Recent Games</TextTitle>
-            <TextSubTitle>Filters</TextSubTitle>
-            <ViewBoxButtonsChoose>
-                <ScrollView horizontal >
-                    {
-                        loadGames !== true &&
-                        games.map((item, index, object) => {
-                            index += 1;
-                            return (
-                                <ButtonChooseBet
-                                    key={item.type}
-                                    item={item}
-                                    id={index.toString()}
-                                    func={(e: number) => changeState(e, item.type)}
-                                    active={activeId}
-                                />
-                            )
-                        })
-                    }
-                </ScrollView>
-            </ViewBoxButtonsChoose>
-
-            <ViewBetsScrollList>
-                <ScrollView style={{ marginBottom: 1 }}>
-                    {
-                        gamesResults.length > 0 ?
-                            gamesResults.map((item, index: number) => {
+        <>
+            <Header />
+            <Wrapper>
+                <TextTitle>Recent Games</TextTitle>
+                <TextSubTitle>Filters</TextSubTitle>
+                <ViewBoxButtonsChoose>
+                    <ScrollView horizontal >
+                        {
+                            loadGames !== true &&
+                            games.map((item, index, object) => {
+                                index += 1;
                                 return (
-                                    <ViewListGames key={index}>
-                                        <ViewDivisorElement color={item.color}>
-                                        </ViewDivisorElement>
-                                        <ViewGameDescription>
-                                            <TextNumberList>{[(item.numbers)].join(",").replace(/,/g, ", ")}</TextNumberList>
-                                            <View style={{ width: "100%", }}>
-                                                <TextInfos>{formatDate(item.date)} - (R$ {(item.price).toFixed(2)
-                                                    .replace(".", ",")
-                                                    .replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.")
-                                                })
-                                                </TextInfos>
-                                                <TextType color={item.color}>{item.type}</TextType>
-                                            </View>
-                                        </ViewGameDescription>
-                                    </ViewListGames>
+                                    <ButtonChooseBet
+                                        key={item.type}
+                                        item={item}
+                                        id={index.toString()}
+                                        func={(e: number) => changeState(e, item.type)}
+                                        active={activeId}
+                                    />
                                 )
-                            }) :
-                            <>
-                                <Text>Não há apostas realizadas!</Text>
-                            </>
-                    }
-                </ScrollView>
-            </ViewBetsScrollList>
-            {/* <Footer /> */}
+                            })
+                        }
+                    </ScrollView>
+                </ViewBoxButtonsChoose>
 
-        </Wrapper>
+                <ViewBetsScrollList>
+                    <ScrollView style={{ marginBottom: 1 }}>
+                        {
+                            gamesResults.length > 0 ?
+                                gamesResults.map((item, index: number) => {
+                                    return (
+                                        <ViewListGames key={index}>
+                                            <ViewDivisorElement color={item.color}>
+                                            </ViewDivisorElement>
+                                            <ViewGameDescription>
+                                                <TextNumberList>{[(item.numbers)].join(",").replace(/,/g, ", ")}</TextNumberList>
+                                                <View style={{ width: "100%", }}>
+                                                    <TextInfos>{formatDate(item.date)} - (R$ {(item.price).toFixed(2)
+                                                        .replace(".", ",")
+                                                        .replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.")
+                                                    })
+                                                </TextInfos>
+                                                    <TextType color={item.color}>{item.type}</TextType>
+                                                </View>
+                                            </ViewGameDescription>
+                                        </ViewListGames>
+                                    )
+                                }) :
+                                <>
+                                    <Text>Não há apostas realizadas!</Text>
+                                </>
+                        }
+                    </ScrollView>
+                </ViewBetsScrollList>
+                {/* <Footer /> */}
+
+            </Wrapper>
+        </>
     )
 }
 

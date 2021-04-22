@@ -29,3 +29,10 @@ export interface Item {
     price: number;
     min_cart_value: number;
 }
+
+export interface NavigationType {
+    navigation: {
+        openDrawer: Function,
+        toggleDrawer: Function
+    }
+}

@@ -1,5 +1,6 @@
 import React from "react";
-import { TouchableOpacity, View } from "react-native";
+import { TouchableOpacity, View, Button, Text } from "react-native";
+
 import { useNavigation, CommonActions } from '@react-navigation/native';
 import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
 import {
@@ -7,47 +8,51 @@ import {
     ViewLineLogo,
     BoxLogo,
     ViewBoxIcons,
+
 } from "./style";
 
-// import { NavigationType } from "./types"
+import { DrawerNavigation } from "./types"
 
-function Header() {
+function Header(props: DrawerNavigation) {
     const navigation = useNavigation();
     return (
         <BoxLogo>
+
             <TouchableOpacity onPress={() => alert("Home")}>
                 <TextLogoTitle>TGL</TextLogoTitle>
                 <ViewLineLogo />
             </TouchableOpacity>
 
             <ViewBoxIcons>
-                <MaterialCommunityIcons
-                    name={"cart-minus"}
-                    onPress={() => alert("Cart")}
-                    size={35}
-                    color={"#B5C401"}
-                    style={{ marginRight: 30 }}
-                />
-                <MaterialIcons
-                    name={"logout"}
-                    size={35}
-                    color={"#C1C1C1"}
+                <TouchableOpacity onPress={() => props.navigation.openDrawer()} >
+                    <MaterialCommunityIcons
+                        name={"cart-minus"}
+                        size={35}
+                        color={"#B5C401"}
+                        style={{ marginRight: 30 }}
+                    />
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => navigation.dispatch(
+                    CommonActions.reset({
+                        index: 1,
+                        routes: [
+                            { name: 'Login' },
+                            // {
+                            //     name: 'Profile',
+                            //     params: { user: 'jane' },
+                            // },
+                        ],
+                    })
+                )}>
+                    <MaterialIcons
+                        name={"logout"}
+                        size={35}
+                        color={"#C1C1C1"}
                     // onPress={() => navigation.navigate("Login")}
-                    onPress={() => navigation.dispatch(
-                        CommonActions.reset({
-                            index: 1,
-                            routes: [
-                                { name: 'Login' },
-                                // {
-                                //     name: 'Profile',
-                                //     params: { user: 'jane' },
-                                // },
-                            ],
-                        })
-                    )}
 
-                // style={{ position: "absolute", marginTop: 25, right: 20 }}
-                />
+                    // style={{ position: "absolute", marginTop: 25, right: 20 }}
+                    />
+                </TouchableOpacity>
             </ViewBoxIcons>
 
         </BoxLogo>

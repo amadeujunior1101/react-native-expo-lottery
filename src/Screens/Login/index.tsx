@@ -76,6 +76,7 @@ function Login({ navigation }: NavigationType) {
 
     function auth() {
         console.log("Validate...")
+
     }
 
     const handleChangeEmail = (e: string) => {
@@ -129,7 +130,8 @@ function Login({ navigation }: NavigationType) {
                                     <TextTitleButtonLogInForgot>I forget my password</TextTitleButtonLogInForgot>
                                 </TouchableOpacity>
                             </ViewBoxForgot>
-                            <TouchableOpacity style={{ flexDirection: "row", alignItems: "center", }} onPress={() => handleLogin()}>
+                            <TouchableOpacity style={{ flexDirection: "row", alignItems: "center", }} onPress={() => navigation.navigate("AppTabs")}>
+                                {/* <TouchableOpacity style={{ flexDirection: "row", alignItems: "center", }} onPress={() => handleLogin()}> */}
                                 <TextTitleButtonLogIn>Log In</TextTitleButtonLogIn>
                                 <FontAwesome5
                                     name="arrow-right"

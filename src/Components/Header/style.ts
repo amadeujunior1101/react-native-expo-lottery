@@ -4,7 +4,14 @@ const BoxLogo = styled.View`
 justify-content: space-between;
 flex-direction: row;
 align-items: center;
+background-color: #FFF;
+/* padding-left: 10px;
+padding-right: 10px;
+padding-bottom: 10px; */
+padding: 10px;
 `;
+
+
 
 const TextLogoTitle = styled.Text`
   font-size: 35px;
@@ -28,9 +35,11 @@ const ViewBoxIcons = styled.View`
   align-items: center;
 `;
 
+
 export {
   TextLogoTitle,
   ViewLineLogo,
   BoxLogo,
   ViewBoxIcons,
+ 
 }
