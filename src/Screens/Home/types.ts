@@ -21,3 +21,11 @@ export interface GameResults {
 export interface TypeColorProps {
     color: string
 }
+
+export interface NavigationType {
+    navigation: {
+        openDrawer: Function,
+        toggleDrawer: Function
+    }
+    state: boolean
+}

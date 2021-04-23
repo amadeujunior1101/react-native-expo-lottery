@@ -13,7 +13,7 @@ import Register from "./Screens/Register";
 import ResetPassword from "./Screens/ResetPassword";
 import Home from "./Screens/Home";
 import ButtonGame from "./Components/ButtonGame";
-import CustomDrawerContent from "./Components/Cart";
+import Cart from "./Components/Cart";
 
 import Header from "./Components/Header"
 
@@ -115,17 +115,10 @@ function AppTabs() {
     )
 }
 
-interface DrawerType {
-    navigation: {
-        openDrawer: Function,
-        toggleDrawer: Function
-    }
-}
-
 function NavDrawer(navigation: DrawerContentComponentProps) {
     return (
         // <Drawer.Navigator drawerContent={props => <CustomDrawerContent {...props} />}>
-        <Drawer.Navigator drawerContent={props => <CustomDrawerContent {...props} />} drawerPosition="right" drawerStyle={{ width: "70%" }}>
+        <Drawer.Navigator drawerContent={props => <Cart {...props} />} drawerPosition="right" drawerStyle={{ width: "80%" }}>
             <Drawer.Screen name="Game" component={Game} {...navigation} />
         </Drawer.Navigator>
     );
@@ -134,7 +127,7 @@ function NavDrawer(navigation: DrawerContentComponentProps) {
 function AppStack() {
     return (
         <StackNavigation.Navigator
-            initialRouteName="Login"
+            initialRouteName="AppTabs"
             screenOptions={{}}>
             <StackNavigation.Screen name="Login" component={Login} options={{ headerShown: false }} />
             <StackNavigation.Screen name="Register" component={Register} options={{ headerShown: false }} />

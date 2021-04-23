@@ -4,7 +4,10 @@ import React from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 import { useFonts } from 'expo-font';
 import Routes from './src/Routes';
-import AppLoading from "expo-app-loading"
+import AppLoading from "expo-app-loading";
+
+import store from "./src/store/store";
+import { Provider } from "react-redux";
 
 export default function App() {
 
@@ -20,7 +23,9 @@ export default function App() {
 
     return (
       <View style={styles.container}>
-        <Routes />
+        <Provider store={store}>
+          <Routes />
+        </Provider>
         <StatusBar style="auto" />
       </View>
     );
@@ -33,3 +38,4 @@ const styles = StyleSheet.create({
     marginTop: Constants.statusBarHeight
   },
 });
+

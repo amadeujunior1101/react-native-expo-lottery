@@ -35,4 +35,5 @@ export interface NavigationType {
         openDrawer: Function,
         toggleDrawer: Function
     }
+    state: boolean
 }

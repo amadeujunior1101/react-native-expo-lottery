@@ -6,5 +6,6 @@ export interface DrawerNavigation {
     navigation: {
         openDrawer: Function,
         toggleDrawer: Function
-    }
+    },
+    state: boolean
 }

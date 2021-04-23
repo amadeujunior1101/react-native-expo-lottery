@@ -23,10 +23,10 @@ import {
     TextType,
 } from "./style";
 
-import { Game, GameResults } from "./types";
+import { Game, GameResults, NavigationType } from "./types";
 
-function Home() {
-    const navigation = useNavigation();
+function Home(navigation: NavigationType) {
+    const navigation2 = useNavigation();
 
     const [openMenu, setOpenMenu] = useState(false);
     const [games, setGames] = useState<Game[]>([]);
@@ -100,7 +100,7 @@ function Home() {
 
     return (
         <>
-            <Header />
+            <Header navigation={navigation.navigation} state={false} />
             <Wrapper>
                 <TextTitle>Recent Games</TextTitle>
                 <TextSubTitle>Filters</TextSubTitle>

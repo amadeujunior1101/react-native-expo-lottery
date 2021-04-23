@@ -24,14 +24,21 @@ function Header(props: DrawerNavigation) {
             </TouchableOpacity>
 
             <ViewBoxIcons>
-                <TouchableOpacity onPress={() => props.navigation.openDrawer()} >
-                    <MaterialCommunityIcons
-                        name={"cart-minus"}
-                        size={35}
-                        color={"#B5C401"}
-                        style={{ marginRight: 30 }}
-                    />
-                </TouchableOpacity>
+                {
+                    props.state === true ?
+
+                        <TouchableOpacity onPress={() => props.navigation.openDrawer()} >
+                            <MaterialCommunityIcons
+                                name={"cart-minus"}
+                                size={35}
+                                color={"#B5C401"}
+                                style={{ marginRight: 30 }}
+                            />
+                        </TouchableOpacity>
+                        :
+                        <>
+                        </>
+                }
                 <TouchableOpacity onPress={() => navigation.dispatch(
                     CommonActions.reset({
                         index: 1,

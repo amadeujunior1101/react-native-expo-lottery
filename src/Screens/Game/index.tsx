@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Text, View, ScrollView } from "react-native";
+import { useDispatch } from "react-redux";
+import { Dispatch } from "redux";
 import ButtonChooseBet from "../../Components/ButtonChooseBet";
 import BallBet from "../../Components/Ball"
 import api from "../../Services/api";
 import { GameType, Item, Cart, NavigationType } from "./types";
 import Header from "../../Components/Header";
 import ActionButtons from "../../Components/ActionButtons";
+import { addCart } from "../../store/Carts/Carts.actions";
 
 import {
     Wrapper,
@@ -17,8 +20,12 @@ import {
     ViewBottomBar,
     ViewContainerBalls,
 } from "./style";
+import { ItemCart } from "../../store/Carts/Carts.types";
 
 function Game(navigation: NavigationType) {
+
+    const dispatch: Dispatch = useDispatch();
+
     // console.log("nav:", navigation)
     const [games, setGames] = useState<GameType[]>([]);
     const [selectedGame, setSelectedGame] = useState<Item>();
@@ -141,8 +148,24 @@ function Game(navigation: NavigationType) {
             numbers: cartTemporary,
             color: String(selectedGame?.color),
         });
-        console.log("Itens no carinho:", cart);
+        // console.log("Itens no carinho:", cart);
 
+        let item: ArrayObjects = {
+            cart: [{
+                type: String(selectedGame?.type),
+                price: Number(selectedGame?.price),
+                game_id: Number(selectedGame?.id),
+                date: getDate(),
+                numbers: cartTemporary,
+                color: String(selectedGame?.color),
+            }]
+        }
+
+        interface ArrayObjects {
+            cart: Array<ItemCart>;
+        };
+
+        dispatch(addCart(item))
         setCartTemporary([])
         setSelectedBalls([])
     }
@@ -183,7 +206,7 @@ function Game(navigation: NavigationType) {
 
     return (
         <>
-            <Header navigation={navigation.navigation} />
+            <Header navigation={navigation.navigation} state={true} />
             <Wrapper>
                 <TextTypeGame>New bet for {selectedGame?.type}</TextTypeGame>
                 <TextChooseGame>Choose a game</TextChooseGame>
