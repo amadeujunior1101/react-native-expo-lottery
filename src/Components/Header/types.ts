@@ -9,3 +9,14 @@ export interface DrawerNavigation {
     },
     state: boolean
 }
+
+export interface ItemCart {
+    type: string;
+    price: number;
+    numbers: Array<String>;
+    color: string;
+    date: string;
+}
+export interface ArrayObjects {
+    cart: Array<ItemCart>;
+};

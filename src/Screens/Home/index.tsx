@@ -1,7 +1,7 @@
-import React from "react"
+import React, { useState, useEffect } from "react"
 import { View, ScrollView, Text } from "react-native"
-import { useEffect, useState } from "react";
-import { useNavigation, CommonActions } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 import dayjs from 'dayjs';
 import api from "../../Services/api";
@@ -26,6 +26,7 @@ import {
 import { Game, GameResults, NavigationType } from "./types";
 
 function Home(navigation: NavigationType) {
+    const [spinner, setSpinner] = useState(true)
     const navigation2 = useNavigation();
 
     const [openMenu, setOpenMenu] = useState(false);
@@ -61,6 +62,7 @@ function Home(navigation: NavigationType) {
 
             setGames(listGames.data.data.data)
             setLoadGames(false)
+            setSpinner(false);
 
         } catch (error) {
             if (!error.response) {
@@ -125,6 +127,11 @@ function Home(navigation: NavigationType) {
                 </ViewBoxButtonsChoose>
 
                 <ViewBetsScrollList>
+                    <Spinner
+                        visible={spinner}
+                        textContent={'Loading...'}
+                    // textStyle={}
+                    />
                     <ScrollView style={{ marginBottom: 1 }}>
                         {
                             gamesResults.length > 0 ?

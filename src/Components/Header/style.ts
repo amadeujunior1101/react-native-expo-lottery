@@ -11,8 +11,6 @@ padding-bottom: 10px; */
 padding: 10px;
 `;
 
-
-
 const TextLogoTitle = styled.Text`
   font-size: 35px;
   color: #707070;
@@ -35,11 +33,25 @@ const ViewBoxIcons = styled.View`
   align-items: center;
 `;
 
+const ViewBoxCartIcon = styled.View`
+
+`;
+
+const TextNumberCartItem = styled.Text`
+position: absolute;
+margin-top: 0;
+/* margin-left: 0; */
+z-index: 2;
+right: 0;
+font: normal bold 18px "Helvetica";
+color: #dc3545;
+`;
 
 export {
   TextLogoTitle,
   ViewLineLogo,
   BoxLogo,
   ViewBoxIcons,
- 
+  ViewBoxCartIcon,
+  TextNumberCartItem,
 }

@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, ScrollView } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch } from "redux";
+import { MaterialIcons, MaterialCommunityIcons, FontAwesome5 } from "@expo/vector-icons";
 import api from "../../Services/api";
 import { removeCart } from "../../store/Carts/Carts.actions";
 import {
@@ -12,38 +13,19 @@ import {
 import CartItem from "../CartItem"
 import {
     TextInformationCartEmpty,
-    ViewScrollList,
+    ViewBoxCartTitle,
+    TextCartTitle,
+    TouchableOpacityIconClose,
+    ViewTextInformationCartEmpty,
+    ViewCartTotal,
+    TextCartTotal,
+    TextTotal,
+    TextValueTotal,
+    TouchableOpacitySaveButton,
+    TextSaveButton,
 } from "./style";
 
-export interface Item {
-    id: number;
-    type: string;
-    color: string;
-    description: string;
-    max_number: number;
-    range: number;
-    price: number;
-    min_cart_value: number;
-}
-export interface Cart {
-    type: string;
-    price: number;
-    game_id?: number;
-    date: string;
-    numbers: Array<String>;
-    color: string;
-}
-
-export interface ItemCart {
-    type: string;
-    price: number;
-    numbers: Array<String>;
-    color: string;
-    date: string;
-}
-export interface ArrayObjects {
-    cart: Array<ItemCart>;
-};
+import { ArrayObjects, CartProp, Item, ItemCart } from "./types";
 
 function Cart(props: DrawerContentComponentProps) {
 
@@ -51,11 +33,14 @@ function Cart(props: DrawerContentComponentProps) {
 
     const dispatch: Dispatch = useDispatch();
 
-    const [cart, setCart] = useState<Cart[]>(result)
+    const [cart, setCart] = useState<CartProp[]>(result)
     const [cartTemporary, setCartTemporary] = useState<Array<string>>([])
     const [selectedGame, setSelectedGame] = useState<Item>()
 
-    // console.log("cart.length:", cart.length)
+    useEffect(() => {
+        // console.log("Result length current:", result.length)
+        setCart(result)
+    }, [cart])
 
     function cartValue() {
         let total;
@@ -128,35 +113,84 @@ function Cart(props: DrawerContentComponentProps) {
             return index !== indexRemove
         })
         dispatch(removeCart(indexRemove))
-        // setCart(newCart)
-        console.log("result no remove:", result)
+        setCart(newCart)
+        // console.log("result no remove:", result)
     }
 
     return (
-        <DrawerContentScrollView {...props} style={{ width: "100%", }}>
-            {/* <DrawerItemList {...props} /> */}
+        <>
+            <TouchableOpacityIconClose onPress={() => props.navigation.closeDrawer()}>
+                <MaterialCommunityIcons
+                    name={"close"}
+                    size={35}
+                    color={"#B5C401"}
+                    style={{ marginRight: 20 }}
+                />
+            </TouchableOpacityIconClose>
             {
-                cart.length === 0 ?
-                    <TextInformationCartEmpty>Sem itens no cart</TextInformationCartEmpty>
-                    :
-                    <View style={{}}>
-                        {
-                            cart.map((item, index, object) => {
-                                return (
-                                    <CartItem
-                                        key={index}
-                                        numbers={item.numbers}
-                                        type={item.type}
-                                        color={item.color}
-                                        index={index}
-                                        removeItemCart={(e: number) => { removeItemCart(e) }}
-                                    />
-                                )
-                            })
-                        }
-                    </View>
+                cart.length > 0 &&
+                <ViewBoxCartTitle>
+                    <MaterialCommunityIcons
+                        name={"cart-minus"}
+                        size={35}
+                        color={"#B5C401"}
+                        style={{ marginRight: 10 }}
+                    />
+                    <TextCartTitle>Cart</TextCartTitle>
+                </ViewBoxCartTitle>
             }
-        </DrawerContentScrollView>
+            <DrawerContentScrollView {...props} style={{ width: "100%", }}>
+                {/* <DrawerItemList {...props} /> */}
+
+                {
+                    cart.length === 0 ?
+                        <ViewTextInformationCartEmpty>
+                            <TextInformationCartEmpty>Sem itens no cart</TextInformationCartEmpty>
+                        </ViewTextInformationCartEmpty>
+                        :
+                        <View style={{}}>
+
+                            {
+                                cart.map((item, index, object) => {
+                                    return (
+                                        <CartItem
+                                            key={index}
+                                            numbers={item.numbers}
+                                            type={item.type}
+                                            color={item.color}
+                                            index={index}
+                                            removeItemCart={(e: number) => { removeItemCart(e) }}
+                                        />
+                                    )
+                                })
+                            }
+                        </View>
+                }
+
+            </DrawerContentScrollView>
+            {
+                cart.length > 0 &&
+                <>
+                    <ViewCartTotal>
+                        <TextCartTotal>cart <TextTotal>TOTAL: </TextTotal>
+                        </TextCartTotal>
+                        <TextValueTotal>R$ {cartValue().toFixed(2)
+                            .replace(".", ",")
+                            .replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.")}</TextValueTotal>
+                    </ViewCartTotal>
+                    <TouchableOpacitySaveButton onPress={() => { saveCart() }}>
+                        <TextSaveButton>Save
+                        </TextSaveButton>
+                        <FontAwesome5
+                            name={"arrow-right"}
+                            size={35}
+                            color={"#B5C401"}
+                            style={{ marginLeft: 20 }}
+                        />
+                    </TouchableOpacitySaveButton>
+                </>
+            }
+        </>
     );
 }
 
