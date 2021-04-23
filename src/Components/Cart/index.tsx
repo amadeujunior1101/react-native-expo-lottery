@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { View, Text, ScrollView } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch } from "redux";
-import { MaterialIcons, MaterialCommunityIcons, FontAwesome5 } from "@expo/vector-icons";
+import { MaterialCommunityIcons, FontAwesome5 } from "@expo/vector-icons";
 import api from "../../Services/api";
 import { removeCart } from "../../store/Carts/Carts.actions";
 import {
@@ -44,11 +44,11 @@ function Cart(props: DrawerContentComponentProps) {
 
     function cartValue() {
         let total;
-        if (cart.length === 0) {
+        if (result.length === 0) {
             total = 0
 
         } else {
-            total = cart.reduce((accumulator: any, currentValue) => {
+            total = result.reduce((accumulator: any, currentValue) => {
                 return Number(accumulator) + currentValue.price;
             }, [0]);
         }
@@ -109,12 +109,7 @@ function Cart(props: DrawerContentComponentProps) {
     }
 
     function removeItemCart(indexRemove: number) {
-        let newCart = cart.filter((item, index, object) => {
-            return index !== indexRemove
-        })
         dispatch(removeCart(indexRemove))
-        setCart(newCart)
-        // console.log("result no remove:", result)
     }
 
     return (
@@ -128,7 +123,7 @@ function Cart(props: DrawerContentComponentProps) {
                 />
             </TouchableOpacityIconClose>
             {
-                cart.length > 0 &&
+                result.length > 0 &&
                 <ViewBoxCartTitle>
                     <MaterialCommunityIcons
                         name={"cart-minus"}
@@ -143,7 +138,7 @@ function Cart(props: DrawerContentComponentProps) {
                 {/* <DrawerItemList {...props} /> */}
 
                 {
-                    cart.length === 0 ?
+                    result.length === 0 ?
                         <ViewTextInformationCartEmpty>
                             <TextInformationCartEmpty>Sem itens no cart</TextInformationCartEmpty>
                         </ViewTextInformationCartEmpty>
@@ -151,7 +146,7 @@ function Cart(props: DrawerContentComponentProps) {
                         <View style={{}}>
 
                             {
-                                cart.map((item, index, object) => {
+                                result.map((item, index, object) => {
                                     return (
                                         <CartItem
                                             key={index}
@@ -169,7 +164,7 @@ function Cart(props: DrawerContentComponentProps) {
 
             </DrawerContentScrollView>
             {
-                cart.length > 0 &&
+                result.length > 0 &&
                 <>
                     <ViewCartTotal>
                         <TextCartTotal>cart <TextTotal>TOTAL: </TextTotal>

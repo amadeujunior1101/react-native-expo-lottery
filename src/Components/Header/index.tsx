@@ -14,6 +14,9 @@ import {
 } from "./style";
 
 import { DrawerNavigation, ArrayObjects } from "./types"
+export interface ArrayItems {
+    items: Array<Object>;
+};
 
 function Header(props: DrawerNavigation) {
 
@@ -40,7 +43,7 @@ function Header(props: DrawerNavigation) {
                                     style={{}}
                                 />
                             </TouchableOpacity>
-                            {/* <TextNumberCartItem>{result.length}</TextNumberCartItem> */}
+                            <TextNumberCartItem>{result.length}</TextNumberCartItem>
                         </ViewBoxCartIcon>
                         :
                         <>

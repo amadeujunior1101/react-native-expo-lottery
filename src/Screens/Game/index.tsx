@@ -20,7 +20,7 @@ import {
     ViewBottomBar,
     ViewContainerBalls,
 } from "./style";
-import { ItemCart } from "../../store/Carts/Carts.types";
+import { ArrayObjects } from "./types";
 
 function Game(navigation: NavigationType) {
 
@@ -160,10 +160,6 @@ function Game(navigation: NavigationType) {
                 color: String(selectedGame?.color),
             }]
         }
-
-        interface ArrayObjects {
-            cart: Array<ItemCart>;
-        };
 
         dispatch(addCart(item))
         setCartTemporary([])

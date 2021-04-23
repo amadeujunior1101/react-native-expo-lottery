@@ -23,10 +23,6 @@ export interface Action {
     payload: ArrayObjects
 };
 
-export interface ActionNumber {
-    type: string;
-    payload: number
-};
 
 
 

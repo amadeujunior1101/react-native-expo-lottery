@@ -1,22 +1,12 @@
 import React from "react";
-import { View, Text, TouchableOpacity } from "react-native";
-import { MaterialIcons, MaterialCommunityIcons, FontAwesome5 } from "@expo/vector-icons";
-import { ViewListGames, ViewGameIcon, ViewDivisorElement, ViewGameDescription, TextNumberList, TextType, ViewTypeTrash } from "./style"
-
-interface Props {
-    removeItemCart: Function;
-    index: number;
-    numbers: Array<String>;
-    type: string;
-    color: string;
-}
+import { TouchableOpacity, Text } from "react-native";
+import { MaterialCommunityIcons, } from "@expo/vector-icons";
+import { ViewListGames, ViewDivisorElement, ViewGameDescription, TextNumberList, TextType, ViewTypeTrash } from "./style"
+import { Props } from "./types";
 
 function CartItem(props: Props) {
     return (
         <ViewListGames >
-            {/* <ViewGameIcon>
-                <i className="fas fa-trash-alt" style={{ cursor: "pointer", color: "#888888" }} onClick={() => props.removeItemCart(props.index)}></i>
-            </ViewGameIcon> */}
             <ViewDivisorElement color={props.color} />
             <ViewGameDescription>
                 <TextNumberList>{(props.numbers).join(", ")}</TextNumberList>
