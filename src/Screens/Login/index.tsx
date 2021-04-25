@@ -1,8 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { TouchableOpacity, KeyboardAvoidingView, Platform, ScrollView, View } from "react-native";
 import { FontAwesome5 } from "@expo/vector-icons/";
+import Spinner from 'react-native-loading-spinner-overlay';
+import AsyncStorage from "@react-native-async-storage/async-storage"
+import api from "../../Services/api";
 import validateUser from "./validate";
-import { UserLogin, User, NavigationType } from "./types"
+import { UserLogin, User, NavigationType } from "./types";
+// import Routes from "../../Routes";
+import AuthContext from "../../Contexts/auth";
+// import { AppStack } from "../../Routes";
 import {
     Wrapper,
     TextLogoTitle,
@@ -22,8 +28,10 @@ import {
 } from "./style";
 
 function Login({ navigation }: NavigationType) {
-    const [email, setEmail] = useState<string>("")
-    const [password, setPassword] = useState<string>("")
+
+    const { signed, signIn, email, setEmail, password, setPassword } = useContext(AuthContext);
+
+    const [spinner, setSpinner] = useState(false)
     // const [errorUser, setErrorUser] = useState<UserLogin>()
     const [showHideLogin, setShowHideLogin] = useState({
         icon: 'eye-slash',
@@ -58,7 +66,9 @@ function Login({ navigation }: NavigationType) {
             // })
             auth()
 
+
         } else {
+            // console.log("else")
             error?.email !== "" && alert(error?.email)
             error?.password !== "" && alert(error?.password)
         }
@@ -75,7 +85,46 @@ function Login({ navigation }: NavigationType) {
     }
 
     function auth() {
-        console.log("Validate...")
+        setSpinner(true);
+        try {
+            signIn()
+       
+            setSpinner(false);
+            // navigation.navigate("ResetPassword");
+            // return AppStack()
+            // console.log("response...=>", response)
+
+        } catch (error) {
+            // setVisibleLoading(false);
+
+            // if (!error.response) {
+            //     setVisibleInfoLogin(true);
+            //     setInfoLogin("Houve uma falha na conexão cokm o servidor!");
+            //     setTimeout(() => {
+            //         setVisibleInfoLogin(false);
+            //     }, 4000);
+            //     return;
+            // }
+
+            // if (error.response.statusText) {
+            //     setVisibleInfoLogin(true);
+            //     setInfoLogin("Login ou senha invalidos.");
+            //     setTimeout(() => {
+            //         setVisibleInfoLogin(false);
+            //     }, 4000);
+
+            // } else {
+            //     setVisibleInfoLogin(false);
+            //     setEmail("")
+            //     setPassword("")
+            // }
+
+            return console.log({
+                status: error.response.statusText,
+                error: error.response.data.user_message,
+                message: "Falha na autenticação"
+            })
+        }
 
     }
 
@@ -92,6 +141,11 @@ function Login({ navigation }: NavigationType) {
             style={{ flex: 1 }}
         >
             <Wrapper>
+                <Spinner
+                    visible={spinner}
+                    textContent={'Loading...'}
+                // textStyle={}
+                />
                 <BoxLogo>
                     <TextLogoTitle>TGL</TextLogoTitle>
                     <ViewLineLogo style={{
@@ -130,8 +184,8 @@ function Login({ navigation }: NavigationType) {
                                     <TextTitleButtonLogInForgot>I forget my password</TextTitleButtonLogInForgot>
                                 </TouchableOpacity>
                             </ViewBoxForgot>
-                            <TouchableOpacity style={{ flexDirection: "row", alignItems: "center", }} onPress={() => navigation.navigate("AppTabs")}>
-                                {/* <TouchableOpacity style={{ flexDirection: "row", alignItems: "center", }} onPress={() => handleLogin()}> */}
+                            {/* <TouchableOpacity style={{ flexDirection: "row", alignItems: "center", }} onPress={() => navigation.navigate("AppTabs")}> */}
+                            <TouchableOpacity style={{ flexDirection: "row", alignItems: "center", }} onPress={() => handleLogin()}>
                                 <TextTitleButtonLogIn>Log In</TextTitleButtonLogIn>
                                 <FontAwesome5
                                     name="arrow-right"

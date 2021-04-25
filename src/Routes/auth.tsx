@@ -1,36 +1,28 @@
-import React, { } from "react";
+import React from "react";
 import { View, Text, Button } from "react-native";
+import { createStackNavigator } from "@react-navigation/stack";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createDrawerNavigator, DrawerContentComponentProps } from "@react-navigation/drawer";
 import { Ionicons } from "@expo/vector-icons/";
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import {
-    createDrawerNavigator, DrawerContentComponentProps,
-} from '@react-navigation/drawer';
-import Game from "./Screens/Game";
-import Login from "./Screens/Login";
-import Register from "./Screens/Register";
-import ResetPassword from "./Screens/ResetPassword";
-import Home from "./Screens/Home";
-import ButtonGame from "./Components/ButtonGame";
-import Cart from "./Components/Cart";
 
-import Header from "./Components/Header"
+import Game from "../Screens/Game";
+import Login from "../Screens/Login";
+import Register from "../Screens/Register";
+import ResetPassword from "../Screens/ResetPassword";
+import Home from "../Screens/Home";
+import ButtonGame from "../Components/ButtonGame";
+import Cart from "../Components/Cart";
 
-const StackNavigation = createStackNavigator();
-const TabNavigation = createBottomTabNavigator();
-const Drawer = createDrawerNavigator();
+function NavDrawer(navigation: DrawerContentComponentProps) {
 
-// function NavStack() {
-//     return (
-//         <Stack.Navigator screenOptions={{ headerShown: false }}>
-//             <Stack.Screen name="Login" component={Login} />
-//             <Stack.Screen name="Game" component={Game} options={{ headerTitle: () => <Header />, headerStyle: { height: 70 } }} />
-//             <Stack.Screen name="Register" component={Register} />
-//             <Stack.Screen name="ResetPassword" component={ResetPassword} />
-//         </Stack.Navigator>
-//     );
-// }
+    const Drawer = createDrawerNavigator();
+
+    return (
+        <Drawer.Navigator drawerContent={props => <Cart {...props} />} drawerPosition="right" drawerStyle={{ width: "80%" }}>
+            <Drawer.Screen name="Game" component={Game} {...navigation} />
+        </Drawer.Navigator>
+    );
+}
 
 function Account() {
     return (
@@ -45,9 +37,12 @@ function Account() {
 }
 
 function AppTabs() {
+
+    const TabNavigation = createBottomTabNavigator();
+
     return (
         <TabNavigation.Navigator
-            initialRouteName="Game"
+            initialRouteName="Home"
             tabBarOptions={{
                 activeTintColor: '#B5C401',
                 style: {
@@ -115,34 +110,17 @@ function AppTabs() {
     )
 }
 
-function NavDrawer(navigation: DrawerContentComponentProps) {
-    return (
-        // <Drawer.Navigator drawerContent={props => <CustomDrawerContent {...props} />}>
-        <Drawer.Navigator drawerContent={props => <Cart {...props} />} drawerPosition="right" drawerStyle={{ width: "80%" }}>
-            <Drawer.Screen name="Game" component={Game} {...navigation} />
-        </Drawer.Navigator>
-    );
-}
+function AuthStack() {
 
-function AppStack() {
+    const AuthStackNavigation = createStackNavigator();
+
     return (
-        <StackNavigation.Navigator
+        <AuthStackNavigation.Navigator
             initialRouteName="AppTabs"
             screenOptions={{}}>
-            <StackNavigation.Screen name="Login" component={Login} options={{ headerShown: false }} />
-            <StackNavigation.Screen name="Register" component={Register} options={{ headerShown: false }} />
-            <StackNavigation.Screen name="ResetPassword" component={ResetPassword} options={{ headerShown: false }} />
-            <StackNavigation.Screen name="AppTabs" component={AppTabs} options={{ headerShown: false }} />
-        </StackNavigation.Navigator>
+            <AuthStackNavigation.Screen name="AppTabs" component={AppTabs} options={{ headerShown: false }} />
+        </AuthStackNavigation.Navigator>
     )
 }
 
-const Routes = () => {
-    return (
-        <NavigationContainer>
-            <AppStack />
-        </NavigationContainer>
-    );
-}
-
-export default Routes;
+export default AuthStack;

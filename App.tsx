@@ -1,10 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
 import Constants from 'expo-constants'
 import React from 'react';
-import { View, StyleSheet, Text } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { useFonts } from 'expo-font';
-import Routes from './src/Routes';
 import AppLoading from "expo-app-loading";
+import { NavigationContainer } from "@react-navigation/native";
+import Routes from './src/Routes';
+import { AuthProvider } from "./src/Contexts/auth";
 
 import store from "./src/store/store";
 import { Provider } from "react-redux";
@@ -24,7 +26,11 @@ export default function App() {
     return (
       <View style={styles.container}>
         <Provider store={store}>
-          <Routes />
+          <NavigationContainer>
+            <AuthProvider>
+              <Routes />
+            </AuthProvider>
+          </NavigationContainer>
         </Provider>
         <StatusBar style="auto" />
       </View>
