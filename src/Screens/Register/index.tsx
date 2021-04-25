@@ -1,6 +1,8 @@
 import React, { useState } from "react";
-import { TouchableOpacity, KeyboardAvoidingView, Platform, ScrollView, View } from "react-native";
+import { TouchableOpacity, KeyboardAvoidingView, Platform, ScrollView, View, Alert } from "react-native";
 import { FontAwesome5 } from "@expo/vector-icons/";
+import Spinner from 'react-native-loading-spinner-overlay';
+import api from "../../Services/api"
 import {
     Wrapper,
     TextLogoTitle,
@@ -20,6 +22,7 @@ import { NavigationType, User, UserRegister } from "./types";
 import validateUser from "./validate";
 
 function Register({ navigation }: NavigationType) {
+    const [spinner, setSpinner] = useState(false)
     const [fullName, setFullName] = useState<string>("")
     const [email, setEmail] = useState<string>("")
     const [password, setPassword] = useState<string>("")
@@ -68,8 +71,45 @@ function Register({ navigation }: NavigationType) {
         return true;
     }
 
-    function addNewRegister() {
-        console.log("Validate...")
+    async function addNewRegister() {
+        setSpinner(true);
+        try {
+            const response = await api.post("/create-user", {
+                full_name: fullName,
+                email: email,
+                password: password,
+            }
+            )
+
+            setSpinner(false)
+
+            if (response.data.user_message === "E-mail já cadastrado.") {
+                Alert.alert("Aviso!", response.data.user_message)
+                // return setInfoRegister(response.data.user_message)
+            }
+
+            // if (response.data.user_message === "Acesse seu email e confirme seu usuário.") {
+            //     console.log("response=>", response)
+            //     navigation.goBack();
+            //     Alert.alert("Aviso!", response.data.user_message)
+            //     // return setInfoRegister(response.data.user_message)
+            // }
+            // history.push("/login");
+
+        } catch (error) {
+
+            // setVisibleLoading(false);
+
+            // if (!error.response) {
+            //     return history.replace("/login")
+            // }
+
+            return console.log({
+                status: error.response.statusText,
+                error: error.response.data.user_message,
+                message: "Falha ao registrar novo usuário."
+            })
+        }
     }
 
     const handleChangeFullName = (e: string) => {
@@ -87,6 +127,10 @@ function Register({ navigation }: NavigationType) {
             behavior={Platform.OS === "ios" ? "padding" : "height"}
             style={{ flex: 1 }}
         >
+            <Spinner
+                visible={spinner}
+                textContent={'Loading...'}
+            />
             <Wrapper>
                 <BoxLogo>
                     <TextLogoTitle>TGL</TextLogoTitle>

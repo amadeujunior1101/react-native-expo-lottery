@@ -1,6 +1,8 @@
 import React, { useState } from "react";
-import { TouchableOpacity, KeyboardAvoidingView, Platform, ScrollView } from "react-native";
+import { TouchableOpacity, KeyboardAvoidingView, Platform, ScrollView, Alert } from "react-native";
 import { FontAwesome5 } from "@expo/vector-icons/";
+import Spinner from 'react-native-loading-spinner-overlay';
+import api from "../../Services/api";
 import {
     Wrapper,
     TextLogoTitle,
@@ -23,7 +25,8 @@ import { NavigationType, User, UserPassword } from "./types";
 import validateUser from "./validate";
 
 function ResetPassword({ navigation }: NavigationType) {
-    const [email, setEmail] = useState<string>("")
+    const [email, setEmail] = useState<string>("");
+    const [spinner, setSpinner] = useState(false);
 
     const handleResetPassword = () => {
 
@@ -59,8 +62,42 @@ function ResetPassword({ navigation }: NavigationType) {
         setEmail(e)
     }
 
-    function sendResetPassword() {
-        console.log("Validate...")
+    async function sendResetPassword() {
+        setSpinner(true);
+        try {
+            const response = await api.post("/confirmation-forgot-password", {
+                email: email
+            }
+            )
+
+            if (response.data.user_message === "Email enviado com sucesso.") {
+                setSpinner(false);
+                Alert.alert("Atenção!", "Email enviado com sucesso, redirecionando...");
+                setTimeout(() => {
+                    return navigation.goBack();
+                }, 3000);
+            }
+            if (response.data.user_message === "Email não cadastrado.") {
+                setSpinner(false);
+                Alert.alert("Atenção!", "Email não cadastrado.");
+            }
+
+            // localStorage.setItem('auth:token', response.data.data.token)
+            // history.replace("/");
+
+        } catch (error) {
+            // setVisibleLoading(false);
+            // if (!error.response) {
+            //     return history.replace("/login")
+            // }
+
+            return console.log({
+                status: error.response.statusText,
+                error: error.response.data.user_message,
+                message: "Falha na autenticação"
+            })
+
+        }
     }
 
     return (
@@ -68,6 +105,11 @@ function ResetPassword({ navigation }: NavigationType) {
             behavior={Platform.OS === "ios" ? "padding" : "height"}
             style={{ flex: 1 }}
         >
+            <Spinner
+                visible={spinner}
+                textContent={'Loading...'}
+            // textStyle={}
+            />
             <Wrapper>
                 <BoxLogo>
                     <TextLogoTitle>TGL</TextLogoTitle>

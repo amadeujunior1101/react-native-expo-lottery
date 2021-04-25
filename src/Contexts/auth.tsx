@@ -39,7 +39,7 @@ export const AuthProvider: React.FC = ({ children }) => {
             if (userToken) {
                 setUser(userToken);
                 setLoading(false)
-
+                // api.defaults.headers.Authorization = `Bearer ${userToken}`;
                 setEmail("")
                 setPassword("")
             }
@@ -56,19 +56,25 @@ export const AuthProvider: React.FC = ({ children }) => {
             }
             )
 
-            const token = response.data.data.token
+            // api.defaults.headers.Authorization = `Bearer ${response.data.data.token}`;
 
+            if (response.data.user_message === "Acesse sua caixa de emails e confirme seu usuário.") return Alert.alert("Aviso!", response.data.user_message)
+            // console.log("response=>", response)
+            // navigation.goBack();
+
+            // return setInfoRegister(response.data.user_message)
+
+            //    console.log("response...", response.data)
             setUser(response.data.data.token)
+
+            const token = response.data.data.token
             await AsyncStorage.setItem("auth:token", token);
 
-            if (response.data.user_message === "Acesse sua caixa de emails e confirme seu usuário.") {
-                //   setVisibleLoading(false);
-                Alert.alert("Aviso!", "Acesse sua caixa de emails e confirme seu usuário.");
-                //   return setVisibleInfoUserConfirmed(response.data.user_message)
-            }
 
-            setEmail("")
-            setPassword("")
+
+
+            // setEmail("")
+            // setPassword("")
 
         } catch (error) {
             if (error.response.data.user_message) {
