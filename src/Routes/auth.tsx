@@ -5,6 +5,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createDrawerNavigator, DrawerContentComponentProps } from "@react-navigation/drawer";
 import { Ionicons } from "@expo/vector-icons/";
 
+import Account from "../Screens/Account";
 import Game from "../Screens/Game";
 import Login from "../Screens/Login";
 import Register from "../Screens/Register";
@@ -21,18 +22,6 @@ function NavDrawer(navigation: DrawerContentComponentProps) {
         <Drawer.Navigator drawerContent={props => <Cart {...props} />} drawerPosition="right" drawerStyle={{ width: "80%" }}>
             <Drawer.Screen name="Game" component={Game} {...navigation} />
         </Drawer.Navigator>
-    );
-}
-
-function Account() {
-    return (
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <Text>Account!</Text>
-            <Button
-                title="Go to Account"
-                onPress={() => alert()}
-            />
-        </View>
     );
 }
 
