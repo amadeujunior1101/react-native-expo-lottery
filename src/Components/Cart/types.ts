@@ -1,13 +1,4 @@
-export interface Item {
-    id: number;
-    type: string;
-    color: string;
-    description: string;
-    max_number: number;
-    range: number;
-    price: number;
-    min_cart_value: number;
-}
+
 export interface CartProp {
     type: string;
     price: number;

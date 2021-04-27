@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useContext } from "react"
 import { View, ScrollView, Text } from "react-native"
 import { useNavigation } from '@react-navigation/native';
 import Spinner from 'react-native-loading-spinner-overlay';
+import AuthContext from '../../Contexts/auth';
 
 import dayjs from 'dayjs';
 import api from "../../Services/api";
@@ -26,10 +27,10 @@ import {
 import { Game, GameResults, NavigationType } from "./types";
 
 function Home(navigation: NavigationType) {
-    const [spinner, setSpinner] = useState(true)
-    const navigation2 = useNavigation();
 
-    const [openMenu, setOpenMenu] = useState(false);
+    const { setMinimumBetAmount } = useContext(AuthContext);
+
+    const [spinner, setSpinner] = useState(true)
     const [games, setGames] = useState<Game[]>([]);
     const [loadGames, setLoadGames] = useState(true)
     const [gamesResults, setGamesResults] = useState<GameResults[]>([]);
@@ -56,18 +57,34 @@ function Home(navigation: NavigationType) {
         }
     }
 
+    interface Item {
+        id: number;
+        type: string;
+        color: string;
+        description: string;
+        max_number: number;
+        range: number;
+        price: number;
+        min_cart_value: number;
+    }
+
     async function listGames() {
         try {
             const listGames = await api.get("/list-games?page=1&limit=3");
 
             setGames(listGames.data.data.data)
             setLoadGames(false)
+
+            let listNumbers: [Item] = listGames.data.data.data;
+
+            setMinimumBetAmount(listNumbers[0].min_cart_value)
             setSpinner(false);
 
         } catch (error) {
             if (!error.response) {
                 // return history.replace("/login")
             }
+            setSpinner(false);
             return console.log({
                 status: error.response.statusText,
                 error: error.response.data.user_message,

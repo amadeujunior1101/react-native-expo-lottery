@@ -13,14 +13,8 @@ interface AuthContextData {
     password: string;
     setPassword: Function;
     loading: boolean;
-}
-
-interface UserData {
-    data: {
-        user: {
-            name: string
-        }
-    }
+    minimumBetAmount: number;
+    setMinimumBetAmount: Function;
 }
 
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
@@ -28,6 +22,7 @@ const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 export const AuthProvider: React.FC = ({ children }) => {
     const [loading, setLoading] = useState(true);
     // const [spinner, setSpinner] = useState(false)
+    const [minimumBetAmount, setMinimumBetAmount] = useState<number>(0)
     const [user, setUser] = useState<string | null>("");
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
@@ -108,7 +103,10 @@ export const AuthProvider: React.FC = ({ children }) => {
     }
 
     return (
-        <AuthContext.Provider value={{ signed: !!user, user, signIn, signUp, email: email, setEmail: setEmail, password, setPassword, loading }}>
+        <AuthContext.Provider value={{
+            signed: !!user, user, signIn, signUp, email: email, setEmail: setEmail,
+            password, setPassword, loading, minimumBetAmount, setMinimumBetAmount
+        }}>
             {children}
         </AuthContext.Provider>
     )

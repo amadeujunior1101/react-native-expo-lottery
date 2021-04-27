@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from "react";
-import { View, Text, ScrollView } from "react-native";
+import React, { useState, useEffect, useContext } from "react";
+import { View, Text, ScrollView, Alert } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
+import Spinner from 'react-native-loading-spinner-overlay';
 import { Dispatch } from "redux";
 import { MaterialCommunityIcons, FontAwesome5 } from "@expo/vector-icons";
 import api from "../../Services/api";
+import AuthContext from '../../Contexts/auth';
 import { removeCart } from "../../store/Carts/Carts.actions";
 import {
     DrawerContentScrollView,
@@ -25,9 +27,11 @@ import {
     TextSaveButton,
 } from "./style";
 
-import { ArrayObjects, CartProp, Item, ItemCart } from "./types";
+import { ArrayObjects, CartProp, ItemCart } from "./types";
 
 function Cart(props: DrawerContentComponentProps) {
+
+    const { minimumBetAmount } = useContext(AuthContext);
 
     const result = useSelector((state: ArrayObjects) => state.cart);
 
@@ -35,7 +39,8 @@ function Cart(props: DrawerContentComponentProps) {
 
     const [cart, setCart] = useState<CartProp[]>(result)
     const [cartTemporary, setCartTemporary] = useState<Array<string>>([])
-    const [selectedGame, setSelectedGame] = useState<Item>()
+    const [spinner, setSpinner] = useState(false);
+
 
     useEffect(() => {
         // console.log("Result length current:", result.length)
@@ -62,17 +67,16 @@ function Cart(props: DrawerContentComponentProps) {
 
     async function saveCart() {
         // return console.log("Click save")
-        if (cartValue() < Number(selectedGame?.min_cart_value)) {
+        if (cartValue() < Number(minimumBetAmount)) {
+
             // SetVisibleInfoBet(true)
-            // SetInfoBet(`O valor mínimo das apostas é ${Number(selectedGame?.min_cart_value).toFixed(2)
-            //     .replace(".", ",")
-            //     .replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.")}`)
-            setTimeout(() => {
-                // SetVisibleInfoBet(false)
-            }, 4000);
+            Alert.alert("Atenção!", `O valor mínimo das apostas é ${Number(minimumBetAmount).toFixed(2)
+                .replace(".", ",")
+                .replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.")}`)
         } else {
             // setVisibleLoading(true);
             try {
+                setSpinner(true)
                 const betSave = await api.post("/create-bet", {
                     date: new Date().toISOString().slice(0, 19).replace('T', ' '),
                     games: itemCart.cart
@@ -84,16 +88,14 @@ function Cart(props: DrawerContentComponentProps) {
                     // setVisibleLoading(false);
 
                     // SetVisibleInfoBet(true)
-                    // SetInfoBet("Aposta registrada, você será redirecionado...")
-                    setTimeout(() => {
-                        // SetVisibleInfoBet(false)
-                        // history.push("/");
-                    }, 4000);
+                    setSpinner(false)
+                    Alert.alert("Atenção!", "Aposta registrada, você foi redirecionado...");
+                    props.navigation.navigate("Home");
 
                 }
 
             } catch (error) {
-                // setVisibleLoading(false);
+                setSpinner(false)
 
                 if (!error.response) {
                     // return setErrorConnection(true);
@@ -112,8 +114,34 @@ function Cart(props: DrawerContentComponentProps) {
         dispatch(removeCart(indexRemove))
     }
 
+    // async function listGames() {
+    //     try {
+    //         const listGames = await api.get("/list-games?page=1&limit=3");
+
+    //         let listNumbers: [Item] = listGames.data.data.data;
+
+    //         setSelectedGame(listNumbers[0])
+
+    //     } catch (error) {
+
+    //         // if (!error.response) {
+    //         //     return history.replace("/login")
+    //         // }
+    //         return console.log({
+    //             status: error.response.statusText,
+    //             error: error.response.data.user_message,
+    //             message: "Falha na autenticação"
+    //         })
+    //     }
+    // }
+
     return (
         <>
+            <Spinner
+                visible={spinner}
+                textContent={'Loading...'}
+            // textStyle={}
+            />
             <TouchableOpacityIconClose onPress={() => props.navigation.closeDrawer()}>
                 <MaterialCommunityIcons
                     name={"close"}
