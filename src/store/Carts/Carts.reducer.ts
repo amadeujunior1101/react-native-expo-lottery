@@ -24,6 +24,12 @@ export default function (state: Array<Object> = INITIAL_STATE, action: Action) {
 
       return state
 
+    case "CLEAN_CART":
+
+      state = [];
+
+      return state
+
     default:
       return state
   }

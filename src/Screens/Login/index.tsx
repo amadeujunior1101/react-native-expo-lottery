@@ -2,13 +2,9 @@ import React, { useState, useContext } from "react";
 import { TouchableOpacity, KeyboardAvoidingView, Platform, ScrollView, View } from "react-native";
 import { FontAwesome5 } from "@expo/vector-icons/";
 import Spinner from 'react-native-loading-spinner-overlay';
-import AsyncStorage from "@react-native-async-storage/async-storage"
-import api from "../../Services/api";
 import validateUser from "./validate";
 import { UserLogin, User, NavigationType } from "./types";
-// import Routes from "../../Routes";
 import AuthContext from "../../Contexts/auth";
-// import { AppStack } from "../../Routes";
 import {
     Wrapper,
     TextLogoTitle,
@@ -29,10 +25,10 @@ import {
 
 function Login({ navigation }: NavigationType) {
 
-    const { signed, signIn, email, setEmail, password, setPassword } = useContext(AuthContext);
+    const { signIn, email, setEmail, password, setPassword } = useContext(AuthContext);
 
     const [spinner, setSpinner] = useState(false)
-    // const [errorUser, setErrorUser] = useState<UserLogin>()
+
     const [showHideLogin, setShowHideLogin] = useState({
         icon: 'eye-slash',
         password: true,
@@ -57,18 +53,10 @@ function Login({ navigation }: NavigationType) {
     }
 
     function changeError(error: UserLogin) {
-        // setErrorUser(error)
-        // return console.log("Error", error)
+    
         if (error.email.length > 0 && error.password.length > 0) {
-            // setErrorUser({
-            //     email: "",
-            //     password: ""
-            // })
             auth()
-
-
         } else {
-            // console.log("else")
             error?.email !== "" && alert(error?.email)
             error?.password !== "" && alert(error?.password)
         }
@@ -88,12 +76,9 @@ function Login({ navigation }: NavigationType) {
         setSpinner(true);
         try {
             signIn()
-       
-            setSpinner(false);
-            // navigation.navigate("ResetPassword");
-            // return AppStack()
-            // console.log("response...=>", response)
 
+            setSpinner(false);
+           
         } catch (error) {
             // setVisibleLoading(false);
 
@@ -144,7 +129,6 @@ function Login({ navigation }: NavigationType) {
                 <Spinner
                     visible={spinner}
                     textContent={'Loading...'}
-                // textStyle={}
                 />
                 <BoxLogo>
                     <TextLogoTitle>TGL</TextLogoTitle>
@@ -161,7 +145,6 @@ function Login({ navigation }: NavigationType) {
                             value={email}
                             onChangeText={(e) => handleChangeEmail(e)}
                         />
-                        {/* <Text style={{ display: "flex", position: "absolute", marginTop: 45, color: "#dc3545" }}>{errorUser?.email}</Text> */}
                         <ViewLineLogo />
                         <View>
                             <FontAwesome5
@@ -184,7 +167,6 @@ function Login({ navigation }: NavigationType) {
                                     <TextTitleButtonLogInForgot>I forget my password</TextTitleButtonLogInForgot>
                                 </TouchableOpacity>
                             </ViewBoxForgot>
-                            {/* <TouchableOpacity style={{ flexDirection: "row", alignItems: "center", }} onPress={() => navigation.navigate("AppTabs")}> */}
                             <TouchableOpacity style={{ flexDirection: "row", alignItems: "center", }} onPress={() => handleLogin()}>
                                 <TextTitleButtonLogIn>Log In</TextTitleButtonLogIn>
                                 <FontAwesome5

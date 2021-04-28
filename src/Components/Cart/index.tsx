@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useContext } from "react";
-import { View, Text, ScrollView, Alert } from "react-native";
+import { View, Alert } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import Spinner from 'react-native-loading-spinner-overlay';
 import { Dispatch } from "redux";
 import { MaterialCommunityIcons, FontAwesome5 } from "@expo/vector-icons";
 import api from "../../Services/api";
 import AuthContext from '../../Contexts/auth';
-import { removeCart } from "../../store/Carts/Carts.actions";
+import { removeCart, cleanCart } from "../../store/Carts/Carts.actions";
 import {
     DrawerContentScrollView,
     DrawerContentComponentProps,
@@ -38,12 +38,9 @@ function Cart(props: DrawerContentComponentProps) {
     const dispatch: Dispatch = useDispatch();
 
     const [cart, setCart] = useState<CartProp[]>(result)
-    const [cartTemporary, setCartTemporary] = useState<Array<string>>([])
     const [spinner, setSpinner] = useState(false);
 
-
     useEffect(() => {
-        // console.log("Result length current:", result.length)
         setCart(result)
     }, [cart])
 
@@ -66,15 +63,11 @@ function Cart(props: DrawerContentComponentProps) {
     };
 
     async function saveCart() {
-        // return console.log("Click save")
         if (cartValue() < Number(minimumBetAmount)) {
-
-            // SetVisibleInfoBet(true)
             Alert.alert("Atenção!", `O valor mínimo das apostas é ${Number(minimumBetAmount).toFixed(2)
                 .replace(".", ",")
                 .replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.")}`)
         } else {
-            // setVisibleLoading(true);
             try {
                 setSpinner(true)
                 const betSave = await api.post("/create-bet", {
@@ -83,11 +76,8 @@ function Cart(props: DrawerContentComponentProps) {
                 });
 
                 if (betSave.status === 200) {
-                    // SetVisibleInfoBet(false)
                     setCart([]);
-                    // setVisibleLoading(false);
-
-                    // SetVisibleInfoBet(true)
+                    dispatch(cleanCart())
                     setSpinner(false)
                     Alert.alert("Atenção!", "Aposta registrada, você foi redirecionado...");
                     props.navigation.navigate("Home");
@@ -114,33 +104,11 @@ function Cart(props: DrawerContentComponentProps) {
         dispatch(removeCart(indexRemove))
     }
 
-    // async function listGames() {
-    //     try {
-    //         const listGames = await api.get("/list-games?page=1&limit=3");
-
-    //         let listNumbers: [Item] = listGames.data.data.data;
-
-    //         setSelectedGame(listNumbers[0])
-
-    //     } catch (error) {
-
-    //         // if (!error.response) {
-    //         //     return history.replace("/login")
-    //         // }
-    //         return console.log({
-    //             status: error.response.statusText,
-    //             error: error.response.data.user_message,
-    //             message: "Falha na autenticação"
-    //         })
-    //     }
-    // }
-
     return (
         <>
             <Spinner
                 visible={spinner}
                 textContent={'Loading...'}
-            // textStyle={}
             />
             <TouchableOpacityIconClose onPress={() => props.navigation.closeDrawer()}>
                 <MaterialCommunityIcons
@@ -163,8 +131,6 @@ function Cart(props: DrawerContentComponentProps) {
                 </ViewBoxCartTitle>
             }
             <DrawerContentScrollView {...props} style={{ width: "100%", }}>
-                {/* <DrawerItemList {...props} /> */}
-
                 {
                     result.length === 0 ?
                         <ViewTextInformationCartEmpty>

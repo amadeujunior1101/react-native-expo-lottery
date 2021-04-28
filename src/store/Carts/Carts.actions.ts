@@ -12,3 +12,9 @@ export function removeCart(item: number) {
     payload: item,
   };
 }
+export function cleanCart() {
+  return {
+    type: "CLEAN_CART",
+    payload: "",
+  };
+}

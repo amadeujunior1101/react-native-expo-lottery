@@ -26,7 +26,6 @@ function Game(navigation: NavigationType) {
 
     const dispatch: Dispatch = useDispatch();
 
-    // console.log("nav:", navigation)
     const [games, setGames] = useState<GameType[]>([]);
     const [selectedGame, setSelectedGame] = useState<Item>();
     const [selectedBalls, setSelectedBalls] = useState<Array<number>>([]);
@@ -148,7 +147,6 @@ function Game(navigation: NavigationType) {
             numbers: cartTemporary,
             color: String(selectedGame?.color),
         });
-        // console.log("Itens no carinho:", cart);
 
         let item: ArrayObjects = {
             cart: [{

@@ -88,13 +88,11 @@ function Register({ navigation }: NavigationType) {
                 // return setInfoRegister(response.data.user_message)
             }
 
-            // if (response.data.user_message === "Acesse seu email e confirme seu usuário.") {
-            //     console.log("response=>", response)
-            //     navigation.goBack();
-            //     Alert.alert("Aviso!", response.data.user_message)
-            //     // return setInfoRegister(response.data.user_message)
-            // }
-            // history.push("/login");
+            if (response.data.user_message === "Acesse seu email e confirme seu usuário.") {
+                console.log("response=>", response)
+                navigation.goBack();
+                Alert.alert("Aviso!", response.data.user_message)
+            }
 
         } catch (error) {
 

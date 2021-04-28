@@ -1,11 +1,12 @@
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import config from '../../config';
 
-const BASE_URL_LOCAL = process.env.REACT_APP_BASE_URL;
+const BASE_URL_LOCAL = config.EXPO_APP_BASE_URL;
 
 const api = axios.create({
-    //   baseURL: BASE_URL_LOCAL || 'http://localhost:3333',
-    baseURL: 'http://192.168.129.138:3333',
+    baseURL: BASE_URL_LOCAL || 'http://localhost:3333',
+    // baseURL: 'http://192.168.129.138:3333',
 });
 
 api.interceptors.request.use(async (config) => {

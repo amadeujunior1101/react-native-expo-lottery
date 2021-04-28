@@ -16,8 +16,6 @@ import {
     TextTitleButtonSignUp,
     BoxLogo,
     ViewLineLogo,
-    TextTitleButtonLogInForgot,
-    ViewBoxForgot,
     TextTitleFooter,
 } from "./style";
 
@@ -82,9 +80,6 @@ function ResetPassword({ navigation }: NavigationType) {
                 Alert.alert("Atenção!", "Email não cadastrado.");
             }
 
-            // localStorage.setItem('auth:token', response.data.data.token)
-            // history.replace("/");
-
         } catch (error) {
             // setVisibleLoading(false);
             // if (!error.response) {
@@ -108,7 +103,6 @@ function ResetPassword({ navigation }: NavigationType) {
             <Spinner
                 visible={spinner}
                 textContent={'Loading...'}
-            // textStyle={}
             />
             <Wrapper>
                 <BoxLogo>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react"
 import { View, ScrollView, Text } from "react-native"
-import { useNavigation } from '@react-navigation/native';
+import { useDispatch, useSelector } from "react-redux";
 import Spinner from 'react-native-loading-spinner-overlay';
 import AuthContext from '../../Contexts/auth';
 
@@ -24,11 +24,12 @@ import {
     TextType,
 } from "./style";
 
-import { Game, GameResults, NavigationType } from "./types";
+import { Game, GameResults, NavigationType, ArrayObjects } from "./types";
 
 function Home(navigation: NavigationType) {
 
     const { setMinimumBetAmount } = useContext(AuthContext);
+    const result = useSelector((state: ArrayObjects) => state.cart);
 
     const [spinner, setSpinner] = useState(true)
     const [games, setGames] = useState<Game[]>([]);
@@ -41,7 +42,7 @@ function Home(navigation: NavigationType) {
     useEffect(() => {
         listGames()
         showBets()
-    }, [])
+    }, [result])
 
     function changeState(id: number, type: string) {
         if (activeId === id) {
@@ -147,7 +148,6 @@ function Home(navigation: NavigationType) {
                     <Spinner
                         visible={spinner}
                         textContent={'Loading...'}
-                    // textStyle={}
                     />
                     <ScrollView style={{ marginBottom: 1 }}>
                         {
@@ -177,7 +177,6 @@ function Home(navigation: NavigationType) {
                         }
                     </ScrollView>
                 </ViewBetsScrollList>
-                {/* <Footer /> */}
 
             </Wrapper>
         </>

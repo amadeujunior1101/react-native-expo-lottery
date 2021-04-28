@@ -22,7 +22,6 @@ import { ItemsValidate, User, NavigationType } from "./types"
 function Account(navigation: NavigationType) {
     const [spinner, setSpinner] = useState(false)
 
-    // const [error, setError] = useState<User>()
     const [fullName, setFullName] = useState<string>("")
     const [email, setEmail] = useState<string>("")
     const [password, setPassword] = useState<string>("")
@@ -45,7 +44,7 @@ function Account(navigation: NavigationType) {
             changeError: changeError,
             check_email: check_email,
         }
-        // return console.log("User:", item)
+       
         return validateAccount(item)
     }
 

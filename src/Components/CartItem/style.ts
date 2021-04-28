@@ -1,5 +1,4 @@
 import styled from "styled-components/native"
-
 interface TypeColorProps {
   color: string;
 };
@@ -29,9 +28,6 @@ const ViewDivisorElement = styled.View<TypeColorProps>`
 const ViewGameDescription = styled.View`
   margin: 0 5px 0 10px;
     flex-direction: column;
-    /* align-items: center; */
-    /* width: 280px; */
-    /* word-wrap: break-word; */
 `;
 const TextNumberList = styled.Text`
   text-align: left;
